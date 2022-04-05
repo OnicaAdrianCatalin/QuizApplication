@@ -45,7 +45,6 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <!-- Challenge change buttons to image buttons -->
     <ImageButton
         android:contentDescription="@string/previous_button_image"
         android:id="@+id/previous_button"
