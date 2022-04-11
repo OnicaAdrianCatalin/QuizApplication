@@ -50,14 +50,14 @@
             android:id="@+id/previous_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/previous_button_image"
+            android:contentDescription="@string/previous"
             android:src="@drawable/ic_arrow_left" />
 
         <ImageButton
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/next_button_image"
+            android:contentDescription="@string/next"
             android:src="@drawable/ic_arrow_right" />
     </LinearLayout>
 </LinearLayout>
