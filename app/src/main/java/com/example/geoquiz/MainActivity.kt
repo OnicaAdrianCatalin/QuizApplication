@@ -1,13 +1,11 @@
 package com.example.geoquiz
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
@@ -34,8 +32,24 @@ class MainActivity : AppCompatActivity() {
         previousButton = findViewById(R.id.previous_button)
         questionTextView = findViewById(R.id.question_text_view)
 
+        setOnClickListeners()
+    }
+    private fun updateQuestion() {
+        val questionTextResId = questionBank[currentIndex].textResId
+        questionTextView.setText(questionTextResId)
+    }
 
+    private fun checkAnswer(userAnswer: Boolean) {
+        val answer = questionBank[currentIndex].answer
+        val messageResId = if (answer == userAnswer) {
+            R.string.correct
+        } else {
+            R.string.incorrect
+        }
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
+    }
 
+    private fun setOnClickListeners() {
         trueButton.setOnClickListener {
             checkAnswer(true)
         }
@@ -50,26 +64,11 @@ class MainActivity : AppCompatActivity() {
         }
         // CHALLENGE: ADD PREVIOUS BUTTON
         previousButton.setOnClickListener {
-            if(currentIndex > 0) {
+            if (currentIndex > 0) {
                 currentIndex = (currentIndex - 1)
             }
             updateQuestion()
         }
         updateQuestion()
     }
-
-    private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
-        questionTextView.setText(questionTextResId)
-    }
-    private fun checkAnswer(userAnswer:Boolean){
-        val answer = questionBank[currentIndex].answer
-        val messageResId =  if(answer == userAnswer){
-            R.string.correct_toast
-        }else{
-            R.string.incorrect_toast
-        }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show()
-    }
-
 }
