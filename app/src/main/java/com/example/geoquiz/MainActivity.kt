@@ -1,6 +1,7 @@
 package com.example.geoquiz
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -11,30 +12,25 @@ class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: ImageButton
-    private lateinit var previousButton: ImageButton
     private lateinit var questionTextView: TextView
     private val questionBank = listOf(
-        Question(R.string.question_australia, true, false),
-        Question(R.string.question_oceans, true, false),
-        Question(R.string.question_africa, false, false),
-        Question(R.string.question_mideast, false, false),
-        Question(R.string.question_americas, true, false),
-        Question(R.string.question_asia, true, false)
+        Question(R.string.question_australia, true),
+        Question(R.string.question_oceans, true),
+        Question(R.string.question_africa, false),
+        Question(R.string.question_mideast, false),
+        Question(R.string.question_americas, true),
+        Question(R.string.question_asia, true)
     )
     private var currentIndex = 0
-    private var correctAnswers = 0
-
-    companion object {
-        private const val maxPercent = 100
-    }
+    private val tag = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(tag, "onCreate called")
         setContentView(R.layout.activity_main)
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
-        previousButton = findViewById(R.id.previous_button)
         questionTextView = findViewById(R.id.question_text_view)
 
         setOnClickListeners()
@@ -43,31 +39,15 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         trueButton.setOnClickListener {
             checkAnswer(true)
-            questionBank[currentIndex].answeredQuestion = true
-            answeredQuestionCheck()
-            if (questionBank[questionBank.size - 1].answeredQuestion == true) {
-                getCorrectAnswerPercentage()
-            }
         }
 
         falseButton.setOnClickListener {
             checkAnswer(false)
-            questionBank[currentIndex].answeredQuestion = true
-            answeredQuestionCheck()
-            if (questionBank[questionBank.size - 1].answeredQuestion == true) {
-                getCorrectAnswerPercentage()
-            }
         }
 
         nextButton.setOnClickListener {
             if (currentIndex < questionBank.size - 1) {
                 currentIndex = (currentIndex + 1)
-            }
-            updateQuestion()
-        }
-        previousButton.setOnClickListener {
-            if (currentIndex > 0) {
-                currentIndex = (currentIndex - 1)
             }
             updateQuestion()
         }
@@ -77,40 +57,40 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
-        answeredQuestionCheck()
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
         val answer = questionBank[currentIndex].answer
-        var messageResId = 0
-        if (answer == userAnswer) {
-            messageResId = R.string.correct
-            correctAnswers++
+        val messageResId = if (answer == userAnswer) {
+            R.string.correct
         } else {
-            messageResId = R.string.incorrect
+            R.string.incorrect
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
 
-    private fun answeredQuestionCheck() {
-        var checkAnswer = questionBank[currentIndex].answeredQuestion
-        if (checkAnswer == false) {
-            trueButton.setEnabled(true)
-            falseButton.setEnabled(true)
-            nextButton.setEnabled(false)
-        } else {
-            nextButton.setEnabled(true)
-            trueButton.setEnabled(false)
-            falseButton.setEnabled(false)
-        }
+    override fun onStart() {
+        super.onStart()
+        Log.d(tag, "onStart called ")
     }
 
-    private fun getCorrectAnswerPercentage() {
-        var answersPercentage = 0
-        if (currentIndex + 1 == questionBank.size) {
-            answersPercentage = (correctAnswers * maxPercent) / questionBank.size
-            Toast.makeText(this, "You answered $answersPercentage% correct", Toast.LENGTH_SHORT)
-                .show()
-        }
+    override fun onResume() {
+        super.onResume()
+        Log.d(tag, "onResume called ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(tag, "onPause called ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(tag, "onStop called ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(tag, "onDestroy called ")
     }
 }
