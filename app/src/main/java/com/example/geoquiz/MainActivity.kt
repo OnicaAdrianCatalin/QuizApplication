@@ -14,14 +14,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var previousButton: ImageButton
     private lateinit var questionTextView: TextView
     private val questionBank = listOf(
-        Question(R.string.question_australia, true),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true)
+        Question(R.string.question_australia, true, false),
+        Question(R.string.question_oceans, true, false),
+        Question(R.string.question_africa, false, false),
+        Question(R.string.question_mideast, false, false),
+        Question(R.string.question_americas, true, false),
+        Question(R.string.question_asia, true, false)
     )
     private var currentIndex = 0
+    private var correctAnswers = 0
+
+    companion object {
+        private const val maxPercent = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,35 +39,32 @@ class MainActivity : AppCompatActivity() {
 
         setOnClickListeners()
     }
-    private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
-        questionTextView.setText(questionTextResId)
-    }
-
-    private fun checkAnswer(userAnswer: Boolean) {
-        val answer = questionBank[currentIndex].answer
-        val messageResId = if (answer == userAnswer) {
-            R.string.correct
-        } else {
-            R.string.incorrect
-        }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
-    }
 
     private fun setOnClickListeners() {
         trueButton.setOnClickListener {
             checkAnswer(true)
+            questionBank[currentIndex].answeredQuestion = true
+            answeredQuestionCheck()
+            if (questionBank[questionBank.size - 1].answeredQuestion == true) {
+                getCorrectAnswerPercentage()
+            }
         }
 
         falseButton.setOnClickListener {
             checkAnswer(false)
+            questionBank[currentIndex].answeredQuestion = true
+            answeredQuestionCheck()
+            if (questionBank[questionBank.size - 1].answeredQuestion == true) {
+                getCorrectAnswerPercentage()
+            }
         }
 
         nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            if (currentIndex < questionBank.size - 1) {
+                currentIndex = (currentIndex + 1)
+            }
             updateQuestion()
         }
-        // CHALLENGE: ADD PREVIOUS BUTTON
         previousButton.setOnClickListener {
             if (currentIndex > 0) {
                 currentIndex = (currentIndex - 1)
@@ -70,5 +72,45 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
         updateQuestion()
+    }
+
+    private fun updateQuestion() {
+        val questionTextResId = questionBank[currentIndex].textResId
+        questionTextView.setText(questionTextResId)
+        answeredQuestionCheck()
+    }
+
+    private fun checkAnswer(userAnswer: Boolean) {
+        val answer = questionBank[currentIndex].answer
+        var messageResId = 0
+        if (answer == userAnswer) {
+            messageResId = R.string.correct
+            correctAnswers++
+        } else {
+            messageResId = R.string.incorrect
+        }
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun answeredQuestionCheck() {
+        var checkAnswer = questionBank[currentIndex].answeredQuestion
+        if (checkAnswer == false) {
+            trueButton.setEnabled(true)
+            falseButton.setEnabled(true)
+            nextButton.setEnabled(false)
+        } else {
+            nextButton.setEnabled(true)
+            trueButton.setEnabled(false)
+            falseButton.setEnabled(false)
+        }
+    }
+
+    private fun getCorrectAnswerPercentage() {
+        var answersPercentage = 0
+        if (currentIndex + 1 == questionBank.size) {
+            answersPercentage = (correctAnswers * maxPercent) / questionBank.size
+            Toast.makeText(this, "You answered $answersPercentage% correct", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 }
