@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(true)
             questionBank[currentIndex].answeredQuestion = true
             answeredQuestionCheck()
-            if (questionBank[questionBank.size - 1].answeredQuestion == true) {
+            if (questionBank[questionBank.size - 1].answeredQuestion) {
                 getCorrectAnswerPercentage()
             }
         }
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(false)
             questionBank[currentIndex].answeredQuestion = true
             answeredQuestionCheck()
-            if (questionBank[questionBank.size - 1].answeredQuestion == true) {
+            if (questionBank[questionBank.size - 1].answeredQuestion) {
                 getCorrectAnswerPercentage()
             }
         }
@@ -93,22 +93,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun answeredQuestionCheck() {
-        var checkAnswer = questionBank[currentIndex].answeredQuestion
-        if (checkAnswer == false) {
-            trueButton.setEnabled(true)
-            falseButton.setEnabled(true)
-            nextButton.setEnabled(false)
+        val checkAnswer = questionBank[currentIndex].answeredQuestion
+        if (!checkAnswer) {
+            trueButton.isEnabled = true
+            falseButton.isEnabled = true
+            nextButton.isEnabled = false
         } else {
-            nextButton.setEnabled(true)
-            trueButton.setEnabled(false)
-            falseButton.setEnabled(false)
+            nextButton.isEnabled = true
+            trueButton.isEnabled = false
+            falseButton.isEnabled = false
         }
     }
 
     private fun getCorrectAnswerPercentage() {
-        var answersPercentage = 0
         if (currentIndex + 1 == questionBank.size) {
-            answersPercentage = (correctAnswers * maxPercent) / questionBank.size
+            val answersPercentage = (correctAnswers * maxPercent) / questionBank.size
             Toast.makeText(this, "You answered $answersPercentage% correct", Toast.LENGTH_SHORT)
                 .show()
         }
