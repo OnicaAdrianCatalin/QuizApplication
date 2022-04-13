@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">QuizApplication
-     </string>
+    <string name="app_name">QuizApplication</string>
     <string name="_true">True</string>
     <string name="_false">False</string>
     <string name="question_australia">Canberra is the capital of Australia.</string>

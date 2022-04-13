@@ -44,18 +44,26 @@ class MainActivity : AppCompatActivity() {
         trueButton.setOnClickListener {
             checkAnswer(true)
             questionBank[currentIndex].answeredQuestion = true
-            answeredQuestionCheck()
+            updateQuestionButtonState(questionBank[currentIndex].answeredQuestion)
             if (questionBank[questionBank.size - 1].answeredQuestion) {
-                getCorrectAnswerPercentage()
+                Toast.makeText(
+                    this,
+                    "You answered ${getCorrectAnswerPercentage()}% correct",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         falseButton.setOnClickListener {
             checkAnswer(false)
             questionBank[currentIndex].answeredQuestion = true
-            answeredQuestionCheck()
+            updateQuestionButtonState(questionBank[currentIndex].answeredQuestion)
             if (questionBank[questionBank.size - 1].answeredQuestion) {
-                getCorrectAnswerPercentage()
+                Toast.makeText(
+                    this,
+                    "You answered ${getCorrectAnswerPercentage()}% correct",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -77,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
-        answeredQuestionCheck()
+        updateQuestionButtonState(questionBank[currentIndex].answeredQuestion)
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
@@ -92,10 +100,8 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
 
-
-    private fun answeredQuestionCheck() {
-        val checkAnswer = questionBank[currentIndex].answeredQuestion
-        if (!checkAnswer) {
+    private fun updateQuestionButtonState(isCurrentQuestionAnswered: Boolean) {
+        if (!isCurrentQuestionAnswered) {
             trueButton.isEnabled = true
             falseButton.isEnabled = true
             nextButton.isEnabled = false
@@ -106,11 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCorrectAnswerPercentage() {
-        if (currentIndex + 1 == questionBank.size) {
-            val answersPercentage = (correctAnswers * maxPercent) / questionBank.size
-            Toast.makeText(this, "You answered $answersPercentage% correct", Toast.LENGTH_SHORT)
-                .show()
-        }
+    private fun getCorrectAnswerPercentage(): Int {
+        return (correctAnswers * maxPercent) / questionBank.size
     }
 }
