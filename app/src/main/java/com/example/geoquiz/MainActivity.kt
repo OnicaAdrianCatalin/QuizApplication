@@ -22,11 +22,14 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, true)
     )
     private var currentIndex = 0
-    private val tag = "MainActivity"
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(tag, "onCreate called")
+        Log.d(TAG, "onCreate called")
         setContentView(R.layout.activity_main)
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -71,26 +74,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d(tag, "onStart called ")
+        Log.d(TAG, "onStart called ")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(tag, "onResume called ")
+        Log.d(TAG, "onResume called ")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(tag, "onPause called ")
+        Log.d(TAG, "onPause called ")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(tag, "onStop called ")
+        Log.d(TAG, "onStop called ")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(tag, "onDestroy called ")
+        Log.d(TAG, "onDestroy called ")
     }
 }
