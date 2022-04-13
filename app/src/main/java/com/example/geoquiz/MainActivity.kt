@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val maxPercent = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,3 +112,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "You answered $answersPercentage% correct", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+}
