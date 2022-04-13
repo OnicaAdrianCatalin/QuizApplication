@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
-    <string name="true_button">True</string>
-    <string name="false_button">False</string>
+    <string name="_true">True</string>
+    <string name="_false">False</string>
     <string name="question_australia">Canberra is the capital of Australia.</string>
     <string name="correct">Correct!</string>
     <string name="incorrect">Incorrect!</string>
-    <string name="next_button">Next</string>
-    <string name="previous_button">Previous</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
     <string name="question_oceans">The Pacific Ocean is larger than
 the Atlantic Ocean.</string>
     <string name="question_mideast">The Suez Canal connects the Red Sea
@@ -16,5 +16,4 @@ and the Indian Ocean.</string>
 in the Americas.</string>
     <string name="question_asia">Lake Baikal is the world\'s oldest and deepest
 freshwater lake.</string>
-    <string name="next">Next</string>
 </resources>

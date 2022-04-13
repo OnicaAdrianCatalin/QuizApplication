@@ -1,13 +1,12 @@
 package com.example.geoquiz
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +18,11 @@ class MainActivity : AppCompatActivity() {
     private val quizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
-    private val KEY_INDEX = "index"
+
+    companion object {
+        private const val KEY_INDEX = "index"
+        private const val TAG = "MainActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +36,16 @@ class MainActivity : AppCompatActivity() {
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
 
+        setOnClickListeners()
+    }
 
+    private fun setOnClickListeners() {
         trueButton.setOnClickListener {
-            checkAnswer(true)
+            Toast.makeText(this, quizViewModel.checkAnswer(true), Toast.LENGTH_SHORT).show()
         }
 
         falseButton.setOnClickListener {
-            checkAnswer(false)
+            Toast.makeText(this, quizViewModel.checkAnswer(false), Toast.LENGTH_SHORT).show()
         }
 
         nextButton.setOnClickListener {
@@ -55,19 +61,9 @@ class MainActivity : AppCompatActivity() {
         questionTextView.setText(questionTextResId)
     }
 
-    private fun checkAnswer(userAnswer:Boolean){
-        val answer = quizViewModel.currentQuestionAnswer
-        val messageResId =  if(answer == userAnswer){
-            R.string.correct
-        }else{
-            R.string.incorrect
-        }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show()
-    }
-
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        Log.i("MainActivity", "onSaveInstanceState")
-        savedInstanceState.putInt(KEY_INDEX,quizViewModel.currentIndex)
-     }
+        Log.i(TAG, "onSaveInstanceState")
+        savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
     }
+}
