@@ -1,0 +1,33 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color purple_200
+color purple_500
+color purple_700
+color teal_200
+color teal_700
+color white
+drawable ic_arrow_left
+drawable ic_arrow_right
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id false_button
+id next_button
+id question_text_view
+id true_button
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string _false
+string _true
+string app_name
+string correct
+string incorrect
+string next
+string question_africa
+string question_americas
+string question_asia
+string question_australia
+string question_mideast
+string question_oceans
+style Theme.GeoQuiz
