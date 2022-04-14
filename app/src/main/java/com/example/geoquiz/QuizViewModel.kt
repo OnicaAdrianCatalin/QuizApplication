@@ -22,4 +22,13 @@ class QuizViewModel : ViewModel() {
     fun moveToNext() {
         currentIndex = (currentIndex + 1) % questionBank.size
     }
+
+    fun checkAnswer(userAnswer: Boolean): Int {
+        val answer = currentQuestionAnswer
+        return when {
+            isCheater -> R.string.judgment
+            userAnswer == answer -> R.string.correct
+            else -> R.string.incorrect
+        }
+    }
 }

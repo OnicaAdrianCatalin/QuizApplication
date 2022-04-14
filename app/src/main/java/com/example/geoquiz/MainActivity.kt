@@ -20,9 +20,10 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
-        private const val KEY_INDEX = "index"
+        private const val KEY_CURRENT_INDEX = "index"
         private const val REQUEST_CODE_CHEAT = 0
     }
+
     private val quizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
@@ -31,25 +32,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
-        quizViewModel.currentIndex = currentIndex
-
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         cheatButton = findViewById(R.id.cheat_button)
         questionTextView = findViewById(R.id.question_text_view)
 
+        restoreState(savedInstanceState)
         setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
         trueButton.setOnClickListener {
-            checkAnswer(true)
+            Toast.makeText(this, quizViewModel.checkAnswer(true), Toast.LENGTH_SHORT).show()
         }
 
         falseButton.setOnClickListener {
-            checkAnswer(false)
+            Toast.makeText(this, quizViewModel.checkAnswer(false), Toast.LENGTH_SHORT).show()
         }
 
         cheatButton.setOnClickListener {
@@ -70,26 +69,24 @@ class MainActivity : AppCompatActivity() {
         questionTextView.setText(questionTextResId)
     }
 
-    private fun checkAnswer(userAnswer: Boolean) {
-        val answer = quizViewModel.currentQuestionAnswer
-        val messageResId = when {
-            quizViewModel.isCheater -> R.string.judgment
-            userAnswer == answer -> R.string.correct
-            else -> R.string.incorrect
-        }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
-    }
-
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         Log.i(TAG, "onSaveInstanceState")
-        savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
+        savedInstanceState.putInt(KEY_CURRENT_INDEX, quizViewModel.currentIndex)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == REQUEST_CODE_CHEAT){
-            quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN,false) ?: false
+        if (resultCode != Activity.RESULT_OK) {
+            return
         }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+        }
+    }
+
+    private fun restoreState(savedState: Bundle?) {
+        val currentIndex = savedState?.getInt(KEY_CURRENT_INDEX, 0) ?: 0
+        quizViewModel.currentIndex = currentIndex
     }
 }
