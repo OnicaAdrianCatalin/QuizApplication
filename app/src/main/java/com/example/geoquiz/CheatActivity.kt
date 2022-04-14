@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 class CheatActivity : AppCompatActivity() {
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
-    private var answerIsTrue = false
+    private var answerQuestion = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class CheatActivity : AppCompatActivity() {
 
         answerTextView = findViewById(R.id.answer_text_view)
         showAnswerButton = findViewById(R.id.show_answer_button)
-        answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+        answerQuestion = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
         setOnClickListeners()
     }
@@ -38,7 +38,7 @@ class CheatActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         showAnswerButton.setOnClickListener {
             val answerText = when {
-                answerIsTrue -> R.string._true
+                answerQuestion -> R.string._true
                 else -> R.string._false
             }
             answerTextView.text = getString(answerText)
