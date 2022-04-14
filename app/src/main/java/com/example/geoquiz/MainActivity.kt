@@ -29,12 +29,12 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate called")
         setContentView(R.layout.activity_main)
 
-        restoreState(savedInstanceState?.getInt(KEY_CURRENT_INDEX, 0) ?: 0)
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
 
+        restoreState(savedInstanceState)
         setOnClickListeners()
     }
 
@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
         savedInstanceState.putInt(KEY_CURRENT_INDEX, quizViewModel.currentIndex)
     }
 
-    private fun restoreState(currentIndex: Int) {
+    private fun restoreState(savedState: Bundle?) {
+        val currentIndex = savedState?.getInt(KEY_CURRENT_INDEX, 0) ?: 0
         quizViewModel.currentIndex = currentIndex
     }
 }
