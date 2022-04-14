@@ -2,9 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-<<<<<<< HEAD
-=======
-    <mapping directory="$PROJECT_DIR$/QuizApplication" vcs="Git" />
->>>>>>> a787ccf335fce174bf2dc48d5b8dcfe020b325ba
   </component>
 </project>

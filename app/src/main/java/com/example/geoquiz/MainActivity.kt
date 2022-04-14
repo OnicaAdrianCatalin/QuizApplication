@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionTextView: TextView
 
     companion object {
-        private const val tag = "MainActivity"
+        private const val TAG = "MainActivity"
         private const val KEY_INDEX = "index"
         private const val REQUEST_CODE_CHEAT = 0
     }
@@ -82,15 +82,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        Log.i(tag, "onSaveInstanceState")
+        Log.i(TAG, "onSaveInstanceState")
         savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            return
-        }
         if (resultCode == REQUEST_CODE_CHEAT){
             quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN,false) ?: false
         }

@@ -8,13 +8,15 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-private lateinit var answerTextView: TextView
-private lateinit var showAnswerButton: Button
-private val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
- val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
-private var answerIsTrue = false
+const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
+const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
 
 class CheatActivity : AppCompatActivity() {
+
+    private lateinit var answerTextView: TextView
+    private lateinit var showAnswerButton: Button
+    private var answerIsTrue = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
