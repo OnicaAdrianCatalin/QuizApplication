@@ -40,7 +40,7 @@ class CheatActivity : AppCompatActivity() {
                 answerIsTrue -> R.string._true
                 else -> R.string._false
             }
-            answerTextView.setText(answerText)
+            answerTextView.text = getString(answerText)
             setAnswerShownResult(true)
         }
     }
