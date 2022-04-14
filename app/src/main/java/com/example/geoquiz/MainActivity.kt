@@ -61,12 +61,13 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.moveToNext()
             updateQuestion()
         }
+
         updateQuestion()
     }
 
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
-        questionTextView.setText(questionTextResId)
+        questionTextView.text = getString(questionTextResId)
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
