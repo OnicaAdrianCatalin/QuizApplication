@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val KEY_CURRENT_INDEX = "index"
+        private const val KEY_INDEX = "index"
         private const val TAG = "MainActivity"
     }
 
@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate called")
         setContentView(R.layout.activity_main)
 
-        restoreState(savedInstanceState?.getInt(KEY_CURRENT_INDEX, 0) ?: 0)
+        val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
+        quizViewModel.currentIndex = currentIndex
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -58,16 +59,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
-        questionTextView.text = getString(questionTextResId)
+        questionTextView.setText(questionTextResId)
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         Log.i(TAG, "onSaveInstanceState")
-        savedInstanceState.putInt(KEY_CURRENT_INDEX, quizViewModel.currentIndex)
-    }
-
-    private fun restoreState(currentIndex: Int) {
-        quizViewModel.currentIndex = currentIndex
+        savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
     }
 }
