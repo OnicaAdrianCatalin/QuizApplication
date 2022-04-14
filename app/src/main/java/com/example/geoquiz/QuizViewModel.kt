@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 
 class QuizViewModel : ViewModel() {
 
-    val questionBank = listOf(
+
+    private val questionBank = listOf(
         Question(R.string.question_australia, true),
         Question(R.string.question_oceans, true),
         Question(R.string.question_africa, false),
@@ -14,7 +15,7 @@ class QuizViewModel : ViewModel() {
     )
     var currentIndex = 0
     var isCheater = false
-    val currentQuestionAnswer: Boolean
+    private val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
     val currentQuestionText: Int
         get() = questionBank[currentIndex].textResId
