@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 
@@ -13,27 +15,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: ImageButton
+    private lateinit var cheatButton: Button
     private lateinit var questionTextView: TextView
 
     private val quizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
 
-    companion object {
-        private const val KEY_CURRENT_INDEX = "index"
-        private const val TAG = "MainActivity"
-    }
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            onActivityResult(result)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate called")
         setContentView(R.layout.activity_main)
 
-        trueButton = findViewById(R.id.true_button)
-        falseButton = findViewById(R.id.false_button)
-        nextButton = findViewById(R.id.next_button)
-        questionTextView = findViewById(R.id.question_text_view)
-
+        bindViews()
         restoreState(savedInstanceState)
         setOnClickListeners()
     }
@@ -45,6 +43,12 @@ class MainActivity : AppCompatActivity() {
 
         falseButton.setOnClickListener {
             Toast.makeText(this, quizViewModel.checkAnswer(false), Toast.LENGTH_SHORT).show()
+        }
+
+        cheatButton.setOnClickListener {
+            val answerQuestion = quizViewModel.currentQuestionAnswer
+            val intent = CheatActivity.newIntent(this@MainActivity, answerQuestion)
+            resultLauncher.launch(intent)
         }
 
         nextButton.setOnClickListener {
@@ -66,8 +70,29 @@ class MainActivity : AppCompatActivity() {
         savedInstanceState.putInt(KEY_CURRENT_INDEX, quizViewModel.currentIndex)
     }
 
+    private fun onActivityResult(result: ActivityResult) {
+        if (result.resultCode == RESULT_OK) {
+            val intent = result.data
+            quizViewModel.isCheater =
+                intent?.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false) ?: false
+        }
+    }
+
     private fun restoreState(savedState: Bundle?) {
         val currentIndex = savedState?.getInt(KEY_CURRENT_INDEX, 0) ?: 0
         quizViewModel.currentIndex = currentIndex
+    }
+
+    private fun bindViews() {
+        trueButton = findViewById(R.id.true_button)
+        falseButton = findViewById(R.id.false_button)
+        nextButton = findViewById(R.id.next_button)
+        cheatButton = findViewById(R.id.cheat_button)
+        questionTextView = findViewById(R.id.question_text_view)
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val KEY_CURRENT_INDEX = "index"
     }
 }

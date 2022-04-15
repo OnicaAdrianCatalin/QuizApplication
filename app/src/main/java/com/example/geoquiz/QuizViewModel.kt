@@ -13,7 +13,8 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_asia, true)
     )
     var currentIndex = 0
-    private val currentQuestionAnswer: Boolean
+    var isCheater = false
+    val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
     val currentQuestionText: Int
         get() = questionBank[currentIndex].textResId
@@ -23,10 +24,11 @@ class QuizViewModel : ViewModel() {
     }
 
     fun checkAnswer(userAnswer: Boolean): Int {
-        return if (currentQuestionAnswer == userAnswer) {
-            R.string.correct
-        } else {
-            R.string.incorrect
+        val answer = currentQuestionAnswer
+        return when {
+            isCheater -> R.string.judgment
+            userAnswer == answer -> R.string.correct
+            else -> R.string.incorrect
         }
     }
 }
