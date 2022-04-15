@@ -17,22 +17,9 @@ class CheatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
 
-        answerTextView = findViewById(R.id.answer_text_view)
-        showAnswerButton = findViewById(R.id.show_answer_button)
+        bindViews()
         answerQuestion = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
-
         setOnClickListeners()
-    }
-
-    companion object {
-        const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
-        const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
-
-        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
-            return Intent(packageContext, CheatActivity::class.java).apply {
-                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
-            }
-        }
     }
 
     private fun setOnClickListeners() {
@@ -51,5 +38,21 @@ class CheatActivity : AppCompatActivity() {
             putExtra(EXTRA_ANSWER_SHOWN, true)
         }
         setResult(Activity.RESULT_OK, data)
+    }
+
+    companion object {
+        const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
+        const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
+
+        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
+            return Intent(packageContext, CheatActivity::class.java).apply {
+                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
+            }
+        }
+    }
+
+    private fun bindViews() {
+        answerTextView = findViewById(R.id.answer_text_view)
+        showAnswerButton = findViewById(R.id.show_answer_button)
     }
 }
