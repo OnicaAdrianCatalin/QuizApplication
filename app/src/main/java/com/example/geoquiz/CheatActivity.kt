@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class CheatActivity : AppCompatActivity() {
-
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
     private var answerQuestion = false

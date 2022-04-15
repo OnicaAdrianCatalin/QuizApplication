@@ -28,6 +28,11 @@ class MainActivity : AppCompatActivity() {
             onActivityResult(result)
         }
 
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            onActivityResult(result)
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -58,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 resultLauncher.launch(intent)
             }
-        }
 
         nextButton.setOnClickListener {
             quizViewModel.moveToNext()
