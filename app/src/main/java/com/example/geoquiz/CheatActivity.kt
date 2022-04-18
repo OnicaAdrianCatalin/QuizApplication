@@ -11,25 +11,26 @@ import androidx.appcompat.app.AppCompatActivity
 class CheatActivity : AppCompatActivity() {
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
-    private var answerQuestion = false
+    private var questionAnswer = false
+    private var answerText = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
 
         bindViews()
-        answerQuestion = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+        questionAnswer = intent.getBooleanExtra(EXTRA_ANSWER_QUESTION, false)
         setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
         showAnswerButton.setOnClickListener {
-            val answerText = when {
-                answerQuestion -> R.string._true
+            answerText = when {
+                questionAnswer -> R.string._true
                 else -> R.string._false
             }
-            answerTextView.text = getString(answerText)
             setAnswerShownResult()
+            answerTextView.text = getString(answerText)
         }
     }
 
@@ -45,13 +46,25 @@ class CheatActivity : AppCompatActivity() {
         showAnswerButton = findViewById(R.id.show_answer_button)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(KEY_CURRENT_ANSWER, answerText)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        answerText = savedInstanceState.getInt(KEY_CURRENT_ANSWER, 0)
+        super.onRestoreInstanceState(savedInstanceState)
+        answerTextView.text = getString(answerText)
+    }
+
     companion object {
-        const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
+        private const val KEY_CURRENT_ANSWER = "current_answer"
+        private const val EXTRA_ANSWER_QUESTION = "com.example.geoquiz.answer_question"
         const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
 
-        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
+        fun newIntent(packageContext: Context, questionAnswer: Boolean): Intent {
             return Intent(packageContext, CheatActivity::class.java).apply {
-                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
+                putExtra(EXTRA_ANSWER_QUESTION, questionAnswer)
             }
         }
     }

@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionTextView: TextView
 
     private val quizViewModel by lazy {
-        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+        ViewModelProvider(this).get(QuizViewModel::class.java)
     }
 
     private var resultLauncher =
@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener {
-            val answerQuestion = quizViewModel.currentQuestionAnswer
-            val intent = CheatActivity.newIntent(this@MainActivity, answerQuestion)
+            val questionAnswer = quizViewModel.currentQuestionAnswer
+            val intent = CheatActivity.newIntent(this@MainActivity, questionAnswer)
             resultLauncher.launch(intent)
         }
 
@@ -73,8 +73,9 @@ class MainActivity : AppCompatActivity() {
     private fun onActivityResult(result: ActivityResult) {
         if (result.resultCode == RESULT_OK) {
             val intent = result.data
-            quizViewModel.isCheater =
+            val questionCheatedResult =
                 intent?.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false) ?: false
+            quizViewModel.setCurrentQuestionCheated(questionCheatedResult)
         }
     }
 
@@ -93,6 +94,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
-        private const val KEY_CURRENT_INDEX = "index"
+        private const val KEY_CURRENT_INDEX = "current_index"
     }
 }
