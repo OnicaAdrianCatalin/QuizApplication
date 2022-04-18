@@ -11,21 +11,21 @@ import androidx.appcompat.app.AppCompatActivity
 class CheatActivity : AppCompatActivity() {
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
-    private var answerQuestion = false
+    private var questionAnswer = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
 
         bindViews()
-        answerQuestion = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+        questionAnswer = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
         setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
         showAnswerButton.setOnClickListener {
             val answerText = when {
-                answerQuestion -> R.string._true
+                questionAnswer -> R.string._true
                 else -> R.string._false
             }
             answerTextView.text = getString(answerText)
@@ -49,9 +49,9 @@ class CheatActivity : AppCompatActivity() {
         const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
         const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
 
-        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
+        fun newIntent(packageContext: Context, questionAnswer: Boolean): Intent {
             return Intent(packageContext, CheatActivity::class.java).apply {
-                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
+                putExtra(EXTRA_ANSWER_IS_TRUE, questionAnswer)
             }
         }
     }

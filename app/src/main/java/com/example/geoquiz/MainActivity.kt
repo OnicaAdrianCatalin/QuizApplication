@@ -3,6 +3,7 @@ package com.example.geoquiz
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -11,7 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionTextView: TextView
 
     private val quizViewModel by lazy {
-        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+        ViewModelProvider(this).get(QuizViewModel::class.java)
     }
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -47,17 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            val answerQuestion = quizViewModel.currentQuestionAnswer
-            val intent = CheatActivity.newIntent(this@MainActivity, answerQuestion)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val options =
-                    ActivityOptionsCompat.makeClipRevealAnimation(
-                        view, 0, 0, view.width, view.height
-                    )
-                resultLauncher.launch(intent, options)
-            } else {
-                resultLauncher.launch(intent)
-            }
+            openCheatActivity(view)
         }
 
         nextButton.setOnClickListener {
@@ -99,8 +90,19 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById(R.id.question_text_view)
     }
 
+    private fun openCheatActivity(view: View) {
+        val questionAnswer = quizViewModel.currentQuestionAnswer
+        val intent = CheatActivity.newIntent(this@MainActivity, questionAnswer)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val options = ActivityOptionsCompat.makeClipRevealAnimation(view, 0, 0, view.width, view.height)
+            resultLauncher.launch(intent, options)
+        } else {
+            resultLauncher.launch(intent)
+        }
+    }
+
     companion object {
         private const val TAG = "MainActivity"
-        private const val KEY_CURRENT_INDEX = "index"
+        private const val KEY_CURRENT_INDEX = "current_index"
     }
 }
