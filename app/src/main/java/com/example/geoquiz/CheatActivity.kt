@@ -18,7 +18,7 @@ class CheatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cheat)
 
         bindViews()
-        questionAnswer = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+        questionAnswer = intent.getBooleanExtra(EXTRA_ANSWER_QUESTION, false)
         setOnClickListeners()
     }
 
@@ -46,12 +46,12 @@ class CheatActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
+        const val EXTRA_ANSWER_QUESTION = "com.example.geoquiz.answer_question"
         const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
 
         fun newIntent(packageContext: Context, questionAnswer: Boolean): Intent {
             return Intent(packageContext, CheatActivity::class.java).apply {
-                putExtra(EXTRA_ANSWER_IS_TRUE, questionAnswer)
+                putExtra(EXTRA_ANSWER_QUESTION, questionAnswer)
             }
         }
     }
