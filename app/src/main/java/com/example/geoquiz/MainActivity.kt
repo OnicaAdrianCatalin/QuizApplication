@@ -108,4 +108,3 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_CURRENT_INDEX = "current_index"
     }
 }
-
