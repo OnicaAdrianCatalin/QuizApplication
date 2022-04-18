@@ -72,9 +72,8 @@ class MainActivity : AppCompatActivity() {
     private fun onActivityResult(result: ActivityResult) {
         if (result.resultCode == RESULT_OK) {
             val intent = result.data
-            val questionCheatedResult =
+            quizViewModel.isCheater =
                 intent?.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false) ?: false
-            quizViewModel.setCurrentQuestionCheated(questionCheatedResult)
         }
     }
 

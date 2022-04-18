@@ -26,13 +26,13 @@ class CheatActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         showAnswerButton.setOnClickListener {
             answerText = when {
-                    questionAnswer -> R.string._true
-                    else -> R.string._false
-                }
-                setAnswerShownResult()
-                        answerTextView.text = getString (answerText)
+                questionAnswer -> R.string._true
+                else -> R.string._false
             }
+            setAnswerShownResult()
+            answerTextView.text = getString(answerText)
         }
+    }
 
     private fun setAnswerShownResult() {
         val data = Intent().apply {
@@ -46,19 +46,7 @@ class CheatActivity : AppCompatActivity() {
         showAnswerButton = findViewById(R.id.show_answer_button)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(KEY_CURRENT_ANSWER, answerText)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        answerText = savedInstanceState.getInt(KEY_CURRENT_ANSWER, 0)
-        super.onRestoreInstanceState(savedInstanceState)
-        answerTextView.text = getString(answerText)
-    }
-
     companion object {
-        private const val KEY_CURRENT_ANSWER = "current_answer"
         private const val EXTRA_ANSWER_QUESTION = "com.example.geoquiz.answer_question"
         const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
 
