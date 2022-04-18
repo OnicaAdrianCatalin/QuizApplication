@@ -1,7 +1,9 @@
 package com.example.geoquiz
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -9,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private val quizViewModel by lazy {
         ViewModelProvider(this).get(QuizViewModel::class.java)
     }
-
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             onActivityResult(result)
@@ -45,17 +47,14 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, quizViewModel.checkAnswer(false), Toast.LENGTH_SHORT).show()
         }
 
-        cheatButton.setOnClickListener {
-            val questionAnswer = quizViewModel.currentQuestionAnswer
-            val intent = CheatActivity.newIntent(this@MainActivity, questionAnswer)
-            resultLauncher.launch(intent)
+        cheatButton.setOnClickListener { view ->
+            openCheatActivity(view)
         }
 
         nextButton.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
         }
-
         updateQuestion()
     }
 
@@ -92,8 +91,22 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById(R.id.question_text_view)
     }
 
+    private fun openCheatActivity(view: View) {
+        val questionAnswer = quizViewModel.currentQuestionAnswer
+        val intent = CheatActivity.newIntent(this@MainActivity, questionAnswer)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val options = ActivityOptionsCompat.makeClipRevealAnimation(
+                view, 0, 0, view.width, view.height
+            )
+            resultLauncher.launch(intent, options)
+        } else {
+            resultLauncher.launch(intent)
+        }
+    }
+
     companion object {
         private const val TAG = "MainActivity"
         private const val KEY_CURRENT_INDEX = "current_index"
     }
 }
+

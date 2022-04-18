@@ -26,13 +26,13 @@ class CheatActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         showAnswerButton.setOnClickListener {
             answerText = when {
-                questionAnswer -> R.string._true
-                else -> R.string._false
+                    questionAnswer -> R.string._true
+                    else -> R.string._false
+                }
+                setAnswerShownResult()
+                        answerTextView.text = getString (answerText)
             }
-            setAnswerShownResult()
-            answerTextView.text = getString(answerText)
         }
-    }
 
     private fun setAnswerShownResult() {
         val data = Intent().apply {
