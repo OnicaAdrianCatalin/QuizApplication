@@ -94,7 +94,9 @@ class MainActivity : AppCompatActivity() {
         val questionAnswer = quizViewModel.currentQuestionAnswer
         val intent = CheatActivity.newIntent(this@MainActivity, questionAnswer)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val options = ActivityOptionsCompat.makeClipRevealAnimation(view, 0, 0, view.width, view.height)
+            val options = ActivityOptionsCompat.makeClipRevealAnimation(
+                view, 0, 0, view.width, view.height
+            )
             resultLauncher.launch(intent, options)
         } else {
             resultLauncher.launch(intent)
