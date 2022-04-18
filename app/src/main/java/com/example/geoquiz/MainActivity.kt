@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            if (cheatCounter < maxCheats) {
+            if (cheatCounter < MAX_CHEATS) {
                 openCheatActivity(view)
                 cheatCounter++
             } else {
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val maxCheats = 3
+        private const val MAX_CHEATS = 3
         private const val TAG = "MainActivity"
         private const val KEY_CURRENT_INDEX = "current_index"
     }
