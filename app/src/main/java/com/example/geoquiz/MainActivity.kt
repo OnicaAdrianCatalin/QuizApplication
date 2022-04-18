@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             onActivityResult(result)
         }
 
+    private var cheatCounter = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,7 +50,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            openCheatActivity(view)
+            if (cheatCounter < 3) {
+                openCheatActivity(view)
+                cheatCounter++
+            } else {
+                Toast.makeText(this, "Can't cheat anymore", Toast.LENGTH_SHORT).show()
+            }
         }
 
         nextButton.setOnClickListener {

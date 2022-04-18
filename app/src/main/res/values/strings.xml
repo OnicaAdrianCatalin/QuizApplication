@@ -10,6 +10,7 @@
     <string name="show_answer">Show Answer</string>
     <string name="cheat">Cheat!</string>
     <string name="judgment">Cheating is wrong.</string>
+    <string name="api_level">API Level %1$s</string>
     <string name="question_oceans">The Pacific Ocean is larger than
 the Atlantic Ocean.</string>
     <string name="question_mideast">The Suez Canal connects the Red Sea
