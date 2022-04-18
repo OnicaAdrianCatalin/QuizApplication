@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             onActivityResult(result)
         }
-
     private var cheatCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            if (cheatCounter < 3) {
+            if (cheatCounter < maxCheats) {
                 openCheatActivity(view)
                 cheatCounter++
             } else {
@@ -111,6 +110,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val maxCheats = 3
         private const val TAG = "MainActivity"
         private const val KEY_CURRENT_INDEX = "current_index"
     }
